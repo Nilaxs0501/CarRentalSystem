@@ -1,3 +1,4 @@
+
 ﻿using CarRentalSystem.Attribute;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -39,5 +40,6 @@ namespace CarRentalSystem.Models
 
         [Required]
         public string Address { get; set; }
+
     }
 }
