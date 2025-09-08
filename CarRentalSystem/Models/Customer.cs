@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace CarRentalSystem.Models
 {
@@ -15,7 +16,10 @@ namespace CarRentalSystem.Models
             [EmailAddress]
             public string Email { get; set; }
 
-            [Required]
+        [Required]
+        public string password { get; set; }
+
+        [Required]
             [Phone]
             public string Phone { get; set; }
 
@@ -32,7 +36,7 @@ namespace CarRentalSystem.Models
 
             // Navigation
             public ICollection<Booking> Bookings { get; set; }
-            public ICollection<Feedback> Feedbacks { get; set; }
+           
     }
     }
 

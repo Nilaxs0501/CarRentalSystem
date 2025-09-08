@@ -34,7 +34,7 @@ namespace CarRentalSystem.Models
 
             // Navigation
             public ICollection<Payment> Payments { get; set; }
-            public Feedback Feedback { get; set; }
+            
         }
     }
 

@@ -190,43 +190,13 @@ namespace CarRentalSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("CustomerID");
 
                     b.ToTable("Customers");
-                });
-
-            modelBuilder.Entity("CarRentalSystem.Models.Feedback", b =>
-                {
-                    b.Property<int>("FeedbackID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FeedbackID"));
-
-                    b.Property<int>("BookingID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CarID")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("CustomerID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("FeedbackText")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.HasKey("FeedbackID");
-
-                    b.HasIndex("BookingID")
-                        .IsUnique();
-
-                    b.HasIndex("CarID");
-
-                    b.HasIndex("CustomerID");
-
-                    b.ToTable("Feedbacks");
                 });
 
             modelBuilder.Entity("CarRentalSystem.Models.Payment", b =>
@@ -285,33 +255,6 @@ namespace CarRentalSystem.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("CarRentalSystem.Models.Feedback", b =>
-                {
-                    b.HasOne("CarRentalSystem.Models.Booking", "Booking")
-                        .WithOne("Feedback")
-                        .HasForeignKey("CarRentalSystem.Models.Feedback", "BookingID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CarRentalSystem.Models.Car", "Car")
-                        .WithMany("Feedbacks")
-                        .HasForeignKey("CarID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CarRentalSystem.Models.Customer", "Customer")
-                        .WithMany("Feedbacks")
-                        .HasForeignKey("CustomerID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Booking");
-
-                    b.Navigation("Car");
-
-                    b.Navigation("Customer");
-                });
-
             modelBuilder.Entity("CarRentalSystem.Models.Payment", b =>
                 {
                     b.HasOne("CarRentalSystem.Models.Booking", "Booking")
@@ -330,23 +273,17 @@ namespace CarRentalSystem.Migrations
 
             modelBuilder.Entity("CarRentalSystem.Models.Booking", b =>
                 {
-                    b.Navigation("Feedback");
-
                     b.Navigation("Payments");
                 });
 
             modelBuilder.Entity("CarRentalSystem.Models.Car", b =>
                 {
                     b.Navigation("Bookings");
-
-                    b.Navigation("Feedbacks");
                 });
 
             modelBuilder.Entity("CarRentalSystem.Models.Customer", b =>
                 {
                     b.Navigation("Bookings");
-
-                    b.Navigation("Feedbacks");
                 });
 #pragma warning restore 612, 618
         }

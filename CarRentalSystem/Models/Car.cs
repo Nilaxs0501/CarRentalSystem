@@ -56,7 +56,7 @@ namespace CarRentalSystem.Models
 
         // Navigation
         public ICollection<Booking> Bookings { get; set; }
-            public ICollection<Feedback> Feedbacks { get; set; }
+           
 
     }
     }

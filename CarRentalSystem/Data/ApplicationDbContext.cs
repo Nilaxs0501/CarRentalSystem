@@ -13,7 +13,7 @@ namespace CarRentalSystem.Data
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Payment> Payments { get; set; }
-        public DbSet<Feedback> Feedbacks { get; set; }
+       
 
     }
 
