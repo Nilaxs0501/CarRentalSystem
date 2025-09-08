@@ -49,7 +49,9 @@ namespace CarRentalSystem.ViewModel
             public DateTime? InsuranceExpiryDate { get; set; }
 
             public string LogoFileName { get; set; }
-        }
+        
+            public string CarImageFileName { get; set; }
+    }
     }
 
 

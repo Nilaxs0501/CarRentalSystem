@@ -95,6 +95,9 @@ namespace CarRentalSystem.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CarID"));
 
+                    b.Property<string>("CarImageFileName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CarName")
                         .IsRequired()
                         .HasMaxLength(100)

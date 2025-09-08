@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRentalSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250907150240_InitialDatabase")]
-    partial class InitialDatabase
+    [Migration("20250908091538_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -97,6 +97,9 @@ namespace CarRentalSystem.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CarID"));
+
+                    b.Property<string>("CarImageFileName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CarName")
                         .IsRequired()

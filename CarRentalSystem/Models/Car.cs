@@ -51,9 +51,11 @@ namespace CarRentalSystem.Models
             public DateTime? InsuranceExpiryDate { get; set; }
 
             public string LogoFileName { get; set; }
+        
+             public string CarImageFileName { get; set; }
 
-            // Navigation
-            public ICollection<Booking> Bookings { get; set; }
+        // Navigation
+        public ICollection<Booking> Bookings { get; set; }
             public ICollection<Feedback> Feedbacks { get; set; }
 
     }
