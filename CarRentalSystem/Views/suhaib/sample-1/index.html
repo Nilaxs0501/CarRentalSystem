@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DriveEasy Car Rentals</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<style>
+body { background-color: #f8f9fa; padding-top: 70px; }
+.hidden { display: none; }
+.nav-link.active { font-weight: bold; color:#0d6efd !important; }
+.hero { 
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1600267166965-5b1c93f13f4d?auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover; 
+    height:400px; display:flex; flex-direction:column; justify-content:center; align-items:center; color:#fff; text-align:center; animation: fadeIn 2s ease;
+}
+@keyframes fadeIn { from {opacity:0} to {opacity:1} }
+.card-img-top { height:200px; object-fit:cover; transition: transform 0.3s; cursor:pointer; border-radius: 10px; }
+.card:hover .card-img-top { transform: scale(1.05); }
+.filter-section { margin-bottom:20px; }
+.social-icons a { margin:0 10px; font-size:1.5rem; color:#0d6efd; transition:0.3s; }
+.social-icons a:hover { color:#0a58ca; }
+footer { background:#212529; color:#fff; padding:20px 0; }
+.rating { color:#ffc107; }
+.modal-img { width:100%; height:200px; object-fit:cover; border-radius:5px; margin-bottom:10px; }
+.about-img { width:100%; height:200px; object-fit:cover; border-radius:10px; margin-bottom:10px; }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">DriveEasy</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto" id="nav-links">
+        <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('home')">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('about')">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('cars')">Cars</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('login')">Login</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('register')">Register</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+
+<!-- Home -->
+<section id="home">
+  <div class="hero">
+    <h1 class="display-4 fw-bold">DriveEasy Car Rentals</h1>
+    <p class="lead">Affordable. Reliable. Easy. Explore Sri Lanka with freedom.</p>
+    <div>
+      <button class="btn btn-primary btn-lg m-2" onclick="showPage('cars')">Browse Cars</button>
+      <button class="btn btn-outline-light btn-lg m-2" onclick="showPage('register')">Register Now</button>
+    </div>
+  </div>
+  <div class="row mt-4 text-center">
+    <div class="col-md-4 mb-3"><div class="card shadow-sm p-3"><i class="bi bi-speedometer2 fs-1"></i><h5 class="mt-2">Fast Booking</h5><p>Book your car within seconds.</p></div></div>
+    <div class="col-md-4 mb-3"><div class="card shadow-sm p-3"><i class="bi bi-geo-alt fs-1"></i><h5 class="mt-2">Multiple Locations</h5><p>Pick up cars anywhere in Sri Lanka.</p></div></div>
+    <div class="col-md-4 mb-3"><div class="card shadow-sm p-3"><i class="bi bi-wallet2 fs-1"></i><h5 class="mt-2">Best Prices</h5><p>Transparent pricing & no hidden fees.</p></div></div>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about" class="hidden my-4">
+  <h2>About DriveEasy</h2>
+  <p>DriveEasy Car Rentals offers reliable, safe, and affordable cars across Sri Lanka. Explore our wide variety of vehicles to suit your travel needs.</p>
+  <div class="row">
+    <div class="col-md-4"><img src="https://source.unsplash.com/400x200/?car,suv" class="about-img"></div>
+    <div class="col-md-4"><img src="https://source.unsplash.com/400x200/?car,sedan" class="about-img"></div>
+    <div class="col-md-4"><img src="https://source.unsplash.com/400x200/?car,road" class="about-img"></div>
+  </div>
+  <h3 class="mt-4">Our Locations</h3>
+  <div class="ratio ratio-16x9">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3944.174536747592!2d79.85573457465636!3d7.873043578891291!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae4e5f08aa3d8df%3A0xf2c1f3cf72a97d96!2sColombo%2C%20Sri%20Lanka!5e0!3m2!1sen!2sus!4v1694592879187!5m2!1sen!2sus" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+  </div>
+</section>
+
+<!-- Cars -->
+<section id="cars" class="hidden">
+  <h2 class="mb-3">Available Cars</h2>
+  <div class="filter-section row mb-3">
+    <div class="col-md-3">
+      <input type="text" id="searchCar" class="form-control" placeholder="Search by name">
+    </div>
+    <div class="col-md-3">
+      <select id="filterType" class="form-select"><option value="">All Types</option><option>Sedan</option><option>SUV</option><option>Hatchback</option></select>
+    </div>
+    <div class="col-md-3">
+      <select id="filterFuel" class="form-select"><option value="">Fuel Type</option><option>Petrol</option><option>Diesel</option><option>Electric</option></select>
+    </div>
+    <div class="col-md-3">
+      <input type="number" id="filterSeats" class="form-control" placeholder="Seats">
+    </div>
+  </div>
+  <div class="row" id="car-list"></div>
+</section>
+
+<!-- Login -->
+<section id="login" class="hidden" style="max-width:400px;">
+  <h2>Login</h2>
+  <form id="loginForm">
+    <input type="email" id="loginEmail" class="form-control mb-2" placeholder="Email" required>
+    <input type="password" id="loginPassword" class="form-control mb-2" placeholder="Password" required>
+    <button class="btn btn-primary w-100">Login</button>
+  </form>
+</section>
+
+<!-- Register -->
+<section id="register" class="hidden" style="max-width:400px;">
+  <h2>Register</h2>
+  <form id="registerForm">
+    <input type="text" id="regName" class="form-control mb-2" placeholder="Full Name" required>
+    <input type="email" id="regEmail" class="form-control mb-2" placeholder="Email" required>
+    <input type="password" id="regPassword" class="form-control mb-2" placeholder="Password (min 6 chars)" required minlength="6">
+    <button class="btn btn-success w-100">Register</button>
+  </form>
+</section>
+
+<!-- Customer Dashboard -->
+<section id="dashboard" class="hidden">
+  <h2>Welcome, <span id="user-name"></span></h2>
+  <h4>My Bookings</h4>
+  <ul class="list-group mb-3" id="booking-list"></ul>
+  <h4>Payment Summary</h4>
+  <div class="card p-3 mb-3">
+    <p>Total Bookings: <span id="total-bookings">0</span></p>
+    <p>Total Cost: $<span id="total-cost">0</span></p>
+  </div>
+</section>
+
+<!-- Staff Dashboard -->
+<section id="staff" class="hidden">
+  <h2>Staff Panel</h2>
+  <h4>Bookings Approval</h4>
+  <ul class="list-group" id="staff-bookings"></ul>
+</section>
+
+<!-- Admin Dashboard -->
+<section id="admin" class="hidden">
+  <h2>Admin Panel</h2>
+  <p>Manage cars, users, bookings</p>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="my-5">
+  <h2>FAQ</h2>
+  <div class="accordion" id="faqAccordion">
+    <div class="accordion-item">
+      <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">How to book a car?</button></h2>
+      <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion"><div class="accordion-body">Browse cars, select dates, and click Book.</div></div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">Can I cancel?</button></h2>
+      <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion"><div class="accordion-body">Customers can cancel within 5 minutes of booking.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="text-center">
+  <div class="social-icons mb-3">
+    <a href="#"><i class="bi bi-facebook"></i></a>
+    <a href="#"><i class="bi bi-twitter"></i></a>
+    <a href="#"><i class="bi bi-instagram"></i></a>
+    <a href="#"><i class="bi bi-youtube"></i></a>
+  </div>
+  <p>&copy; 2025 DriveEasy Car Rentals. All rights reserved.</p>
+</footer>
+
+<!-- Car Details Modal -->
+<div class="modal fade" id="carModal" tabindex="-1"><div class="modal-dialog modal-lg"><div class="modal-content">
+<div class="modal-header"><h5 class="modal-title" id="modalCarName"></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+<div class="modal-body">
+<div id="modalImages" class="mb-3"></div>
+<p id="modalSpecs"></p>
+<div class="mb-3"><label>Pick-up Date:</label><input type="date" id="pickDate" class="form-control"></div>
+<div class="mb-3"><label>Drop-off Date:</label><input type="date" id="dropDate" class="form-control"></div>
+<div><p>Total Price: $<span id="modalTotal">0</span></p></div>
+</div>
+<div class="modal-footer"><button class="btn btn-primary" onclick="confirmBooking()">Book Now</button></div>
+</div></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+let users = [
+  {name:'Admin',email:'admin@site.com',password:'admin',role:'admin'},
+  {name:'Staff',email:'staff@site.com',password:'staff',role:'staff'},
+  {name:'Customer',email:'customer@site.com',password:'customer',role:'customer'}
+];
+let cars = [
+  {name:'Toyota Corolla',price:50,type:'Sedan',fuel:'Petrol',seats:5,transmission:'Automatic',luggage:3,insurance:'Basic',images:['https://source.unsplash.com/400x200/?toyota,corolla','https://source.unsplash.com/400x200/?toyota,car']},
+  {name:'Honda Civic',price:60,type:'Sedan',fuel:'Petrol',seats:5,transmission:'Manual',luggage:3,insurance:'Premium',images:['https://source.unsplash.com/400x200/?honda,civic','https://source.unsplash.com/400x200/?honda,car']},
+  {name:'Tesla Model 3',price:120,type:'Sedan',fuel:'Electric',seats:5,transmission:'Automatic',luggage:2,insurance:'Premium',images:['https://source.unsplash.com/400x200/?tesla,model3','https://source.unsplash.com/400x200/?tesla,car']}
+];
+let bookings = [];
+let currentUser = null;
+let selectedCarIndex = null;
+
+function showPage(id){
+  document.querySelectorAll('section').forEach(s=>s.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+  document.querySelectorAll('#nav-links .nav-link').forEach(a=>a.classList.remove('active'));
+  const active = document.querySelector(`#nav-links .nav-link[onclick="showPage('${id}')"]`);
+  if(active) active.classList.add('active');
+}
+
+function renderCars(){
+  const searchVal = document.getElementById('searchCar').value.toLowerCase();
+  const typeVal = document.getElementById('filterType').value;
+  const fuelVal = document.getElementById('filterFuel').value;
+  const seatsVal = document.getElementById('filterSeats').value;
+  document.getElementById('car-list').innerHTML = cars.map((c,i)=>{
+    if(searchVal && !c.name.toLowerCase().includes(searchVal)) return '';
+    if(typeVal && c.type!==typeVal) return '';
+    if(fuelVal && c.fuel!==fuelVal) return '';
+    if(seatsVal && c.seats!=seatsVal) return '';
+    let stars = '★'.repeat(Math.floor(Math.random()*5+1));
+    return `<div class="col-md-4 mb-3"><div class="card shadow-sm" onclick="openCarModal(${i})">
+      <img src="${c.images[0]}" class="card-img-top">
+      <div class="card-body">
+        <h5>${c.name}</h5>
+        <p>$${c.price}/day | ${c.type}</p>
+        <p class="rating">${stars}</p>
+      </div></div></div>`;
+  }).join('');
+}
+
+function openCarModal(i){
+  selectedCarIndex=i;
+  const car=cars[i];
+  document.getElementById('modalCarName').innerText=car.name;
+  document.getElementById('modalImages').innerHTML=car.images.map(img=>`<img src="${img}" class="modal-img">`).join('');
+  document.getElementById('modalSpecs').innerHTML=`Type: ${car.type}<br>Fuel: ${car.fuel}<br>Seats: ${car.seats}<br>Luggage: ${car.luggage}<br>Transmission: ${car.transmission}<br>Insurance: ${car.insurance}<br>Price/day: $${car.price}`;
+  document.getElementById('modalTotal').innerText=car.price;
+  new bootstrap.Modal(document.getElementById('carModal')).show();
+}
+
+document.getElementById('pickDate').addEventListener('change',calculateTotal);
+document.getElementById('dropDate').addEventListener('change',calculateTotal);
+document.getElementById('searchCar').addEventListener('input',renderCars);
+document.getElementById('filterType').addEventListener('change',renderCars);
+document.getElementById('filterFuel').addEventListener('change',renderCars);
+document.getElementById('filterSeats').addEventListener('input',renderCars);
+
+function calculateTotal(){
+  const pick = new Date(document.getElementById('pickDate').value);
+  const drop = new Date(document.getElementById('dropDate').value);
+  if(pick && drop && drop>pick){
+    const days = Math.ceil((drop-pick)/86400000)+1;
+    document.getElementById('modalTotal').innerText=cars[selectedCarIndex].price*days;
+  }
+}
+
+function confirmBooking(){
+  const pick=document.getElementById('pickDate').value;
+  const drop=document.getElementById('dropDate').value;
+  if(!pick || !drop || new Date(drop)<new Date(pick)){ alert('Select valid dates'); return; }
+  bookings.push({user:currentUser.name, car:cars[selectedCarIndex].name, pick, drop, status:'Pending', price:document.getElementById('modalTotal').innerText});
+  alert('Booking created!');
+  renderBookings(); renderStaffBookings(); renderPaymentSummary(); renderCars();
+  bootstrap.Modal.getInstance(document.getElementById('carModal')).hide();
+}
+
+function renderBookings(){
+  document.getElementById('booking-list').innerHTML=bookings.filter(b=>b.user===currentUser.name).map((b,i)=>{
+    return `<li class="list-group-item">${b.car} | ${b.pick} → ${b.drop} | Status: ${b.status} 
+    ${b.status==='Pending'?`<button class="btn btn-sm btn-danger ms-2" onclick="cancelBooking(${i})">Cancel</button>`:''}</li>`;
+  }).join('');
+}
+
+function cancelBooking(i){
+  const now=new Date();
+  const bookingTime=new Date();
+  if((now-bookingTime)/60000<=5){ bookings.splice(i,1); alert('Booking canceled!'); renderBookings(); renderPaymentSummary(); renderStaffBookings(); renderCars(); }
+  else alert('Cancellation period expired!');
+}
+
+function renderPaymentSummary(){
+  const userBookings=bookings.filter(b=>b.user===currentUser.name);
+  let totalCost=0; userBookings.forEach(b=>totalCost+=parseFloat(b.price));
+  document.getElementById('total-bookings').innerText=userBookings.length;
+  document.getElementById('total-cost').innerText=totalCost;
+}
+
+function renderStaffBookings(){
+  document.getElementById('staff-bookings').innerHTML=bookings.map((b,i)=>{
+    if(b.status==='Pending') return `<li class="list-group-item">${b.user} | ${b.car} | ${b.pick}→${b.drop} 
+      <button class="btn btn-success btn-sm ms-2" onclick="approveBooking(${i})">✔</button>
+      <button class="btn btn-danger btn-sm ms-2" onclick="rejectBooking(${i})">✖</button></li>`;
+    else return '';
+  }).join('');
+}
+
+function approveBooking(i){ bookings[i].status='Confirmed'; renderStaffBookings(); renderBookings(); renderPaymentSummary(); renderCars();}
+function rejectBooking(i){ bookings[i].status='Rejected'; renderStaffBookings(); renderBookings(); renderPaymentSummary(); renderCars();}
+
+function registerUser(e){
+  e.preventDefault();
+  const name=document.getElementById('regName').value;
+  const email=document.getElementById('regEmail').value;
+  const password=document.getElementById('regPassword').value;
+  if(users.some(u=>u.email===email)){ alert('Email exists'); return; }
+  users.push({name,email,password,role:'customer'}); alert('Registered!'); showPage('login');
+}
+
+function loginUser(e){
+  e.preventDefault();
+  const email=document.getElementById('loginEmail').value;
+  const pass=document.getElementById('loginPassword').value;
+  const user=users.find(u=>u.email===email && u.password===pass);
+  if(user){ currentUser=user;
+    document.getElementById('user-name').innerText=user.name;
+    let navHtml=`<li class='nav-item'><a class='nav-link' href='#' onclick="showPage('${user.role==='admin'?'admin':user.role==='staff'?'staff':'dashboard'}')">Dashboard</a></li>
+      <li class='nav-item'><a class='nav-link' href='#' onclick='logout()'>Logout</a></li>`;
+    document.getElementById('nav-links').innerHTML=navHtml;
+    if(user.role==='customer'){ renderBookings(); renderPaymentSummary(); showPage('dashboard'); }
+    else if(user.role==='staff'){ renderStaffBookings(); showPage('staff'); }
+    else showPage('admin');
+    renderCars();
+  } else alert('Invalid credentials');
+}
+
+function logout(){ currentUser=null; document.getElementById('nav-links').innerHTML=`<li class='nav-item'><a class='nav-link' href='#' onclick="showPage('home')">Home</a></li>
+<li class='nav-item'><a class='nav-link' href='#' onclick="showPage('about')">About</a></li>
+<li class='nav-item'><a class='nav-link' href='#' onclick="showPage('cars')">Cars</a></li>
+<li class='nav-item'><a class='nav-link' href='#' onclick="showPage('login')">Login</a></li>
+<li class='nav-item'><a class='nav-link' href='#' onclick="showPage('register')">Register</a></li>`; showPage('home'); renderCars(); }
+
+document.getElementById('registerForm').addEventListener('submit',registerUser);
+document.getElementById('loginForm').addEventListener('submit',loginUser);
+
+renderCars();
+</script>
+</body>
+</html>
