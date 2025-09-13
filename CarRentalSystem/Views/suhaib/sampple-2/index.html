@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DriveEasy Car Rentals</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #e74c3c;
+            --accent: #3498db;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .navbar {
+            background-color: var(--primary);
+            padding: 15px 0;
+            transition: var(--transition);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--accent);
+            transition: var(--transition);
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        
+        .btn {
+            border-radius: 50px;
+            padding: 10px 25px;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: -1;
+            transition: var(--transition);
+        }
+        
+        .btn:hover:before {
+            width: 100%;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent);
+            border-color: var(--accent);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
+        }
+        
+        .btn-danger {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+        
+        .btn-danger:hover {
+            background-color: #c0392b;
+            border-color: #c0392b;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
+        }
+        
+        .btn-success {
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            padding: 150px 0;
+            margin-bottom: 60px;
+            text-align: center;
+            animation: fadeIn 1.5s ease;
+        }
+        
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            animation: slideInDown 1s ease;
+        }
+        
+        .hero-section p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            animation: slideInUp 1s ease;
+        }
+        
+        .card {
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            margin-bottom: 25px;
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            animation: fadeIn 1s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .car-img {
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .card:hover .car-img {
+            transform: scale(1.1);
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .card-title {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .card-text {
+            color: #666;
+        }
+        
+        .section-title {
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 40px;
+            text-align: center;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--accent);
+            border-radius: 2px;
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+        
+        .feature-box {
+            padding: 30px;
+            text-align: center;
+            border-radius: 15px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+            height: 100%;
+        }
+        
+        .feature-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-box:hover .feature-icon {
+            transform: scale(1.2) rotate(5deg);
+            color: var(--secondary);
+        }
+        
+        .login-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin: 40px auto;
+            max-width: 400px;
+            animation: fadeIn 0.8s ease;
+        }
+        
+        .login-header {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .login-body {
+            padding: 25px;
+        }
+        
+        .form-control {
+            border-radius: 10px;
+            padding: 12px 20px;
+            border: 1px solid #ddd;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+        }
+        
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+        
+        .login-footer {
+            padding: 20px;
+            text-align: center;
+            background-color: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+        
+        .alert {
+            border-radius: 10px;
+            padding: 12px 20px;
+            margin-bottom: 20px;
+            display: none;
+            animation: slideInDown 0.5s ease;
+        }
+        
+        .password-toggle {
+            cursor: pointer;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+        
+        .password-input {
+            position: relative;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 80px;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            color: white;
+            margin-right: 10px;
+            transition: var(--transition);
+        }
+        
+        .social-links a:hover {
+            background: var(--accent);
+            transform: translateY(-5px);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideInDown {
+            from { 
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to { 
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideInUp {
+            from { 
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to { 
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+        
+        .shake {
+            animation: shake 0.5s;
+        }
+        
+        .animated {
+            animation-duration: 1s;
+            animation-fill-mode: both;
+        }
+        
+        /* Modal styles */
+        .modal-content {
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Dashboard Cards */
+        .dashboard-card {
+            border-radius: 15px;
+            color: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card-bookings {
+            background: linear-gradient(45deg, #3498db, #2c3e50);
+        }
+        
+        .card-cars {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+        }
+        
+        .card-revenue {
+            background: linear-gradient(45deg, #2ecc71, #27ae60);
+        }
+        
+        .card-users {
+            background: linear-gradient(45deg, #9b59b6, #8e44ad);
+        }
+        
+        /* Admin Table */
+        .admin-table th {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .table-hover tbody tr {
+            transition: var(--transition);
+        }
+        
+        .table-hover tbody tr:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+            transform: scale(1.01);
+        }
+        
+        /* Car Details */
+        .car-detail-img {
+            height: 400px;
+            object-fit: cover;
+            width: 100%;
+            border-radius: 15px;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .car-detail-img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Search form */
+        .search-card {
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+        
+        .search-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Pulse animation */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Floating animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* Page containers */
+        .page-container {
+            display: none;
+        }
+        
+        .active-page {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 100px 0;
+                background-attachment: scroll;
+            }
+            
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+            
+            .car-img {
+                height: 180px;
+            }
+            
+            .btn {
+                padding: 8px 20px;
+            }
+            
+            .login-container {
+                margin: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#" data-page="home">
+                <i class="fa-solid fa-car"></i> DriveEasy
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" data-page="home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-page="about">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-page="contact">Contact</a>
+                    </li>
+                    <li class="nav-item" id="adminNavItem" style="display: none;">
+                        <a class="nav-link" href="#" data-page="admin">Admin</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <div id="guestButtons">
+                        <button class="btn btn-outline-light me-2" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+                        <button class="btn btn-primary pulse" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
+                    </div>
+                    <div id="userButtons" style="display: none;">
+                        <button class="btn btn-outline-light me-2" data-page="dashboard">Dashboard</button>
+                        <button class="btn btn-primary" id="logoutBtn">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="homePage" class="page-container active-page">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container text-center">
+                <h1 class="display-4 fw-bold">Find Your Perfect Rental Car</h1>
+                <p class="lead">Discover the best cars at the best prices</p>
+                
+                <!-- Search Form -->
+                <div class="row justify-content-center mt-5">
+                    <div class="col-md-10">
+                        <div class="card p-4 search-card">
+                            <div class="row g-3">
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" placeholder="Pickup Location">
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="date" class="form-control">
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="time" class="form-control">
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="date" class="form-control">
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="time" class="form-control">
+                                </div>
+                                <div class="col-md-1">
+                                    <button class="btn btn-primary w-100"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Car Listings -->
+        <div class="container">
+            <h2 class="section-title">Available Cars</h2>
+            
+            <div class="row" id="carList">
+                <!-- Cars will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- About Us Page -->
+    <div id="aboutPage" class="page-container">
+        <div class="container my-5">
+            <h2 class="section-title">About Us</h2>
+            <div class="row mb-5">
+                <div class="col-md-6">
+                    <h3>Our Story</h3>
+                    <p>DriveEasy Car Rentals was founded in 2010 with a mission to provide affordable and reliable car rental services. Over the years, we've grown to become one of the most trusted names in the industry.</p>
+                    <p>We pride ourselves on our exceptional customer service and our well-maintained fleet of vehicles.</p>
+                    <div class="mt-4">
+                        <button class="btn btn-primary me-2">Learn More</button>
+                        <button class="btn btn-outline-primary">Our Team</button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1350&q=80" class="img-fluid rounded car-detail-img" alt="Our office">
+                </div>
+            </div>
+            
+            <div class="row mt-5">
+                <div class="col-md-3 mb-4">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-car"></i>
+                        </div>
+                        <h4>Wide Selection</h4>
+                        <p>Choose from economy cars to luxury SUVs</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-tag"></i>
+                        </div>
+                        <h4>Best Prices</h4>
+                        <p>Competitive pricing with no hidden fees</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-headset"></i>
+                        </div>
+                        <h4>24/7 Support</h4>
+                        <p>Our team is always ready to help you</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-shield"></i>
+                        </div>
+                        <h4>Fully Insured</h4>
+                        <p>Comprehensive insurance for peace of mind</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Contact Page -->
+    <div id="contactPage" class="page-container">
+        <div class="container my-5">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card p-4">
+                        <form>
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Your Name</label>
+                                <input type="text" class="form-control" id="name">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email">
+                            </div>
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Message</label>
+                                <textarea class="form-control" id="message" rows="5"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Get in Touch</h4>
+                    <p><i class="fa-solid fa-location-dot me-2"></i> 123 Rental Street, Car City, CC 12345</p>
+                    <p><i class="fa-solid fa-phone me-2"></i> +1 (555) 123-4567</p>
+                    <p><i class="fa-solid fa-envelope me-2"></i> info@driveeasy.com</p>
+                    
+                    <div class="mt-4">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.9663095343008!2d-74.004258724266!3d40.74076987932881!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259bf5c8eef01%3A0x41c84c6d4edbbf57!2sTimes%20Square!5e0!3m2!1sen!2sus!4v1686119232231!5m2!1sen!2sus" width="100%" height="250" style="border-radius: 10px;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Dashboard Page (for logged in users) -->
+    <div id="dashboardPage" class="page-container">
+        <div class="container my-5">
+            <h2 class="section-title">Dashboard</h2>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="dashboard-card card-bookings text-center">
+                        <h3>3</h3>
+                        <p>Active Bookings</p>
+                        <i class="fa-solid fa-calendar-check fa-2x float"></i>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="dashboard-card card-cars text-center">
+                        <h3>2</h3>
+                        <p>Cars Rented</p>
+                        <i class="fa-solid fa-car fa-2x float"></i>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="dashboard-card card-revenue text-center">
+                        <h3>$980</h3>
+                        <p>Total Spent</p>
+                        <i class="fa-solid fa-dollar-sign fa-2x float"></i>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="dashboard-card card-users text-center">
+                        <h3>1</h3>
+                        <p>Account</p>
+                        <i class="fa-solid fa-user fa-2x float"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Recent Bookings</h4>
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Car</th>
+                                            <th>Pickup Date</th>
+                                            <th>Return Date</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Toyota Camry</td>
+                                            <td>2023-06-15</td>
+                                            <td>2023-06-20</td>
+                                            <td><span class="badge bg-success">Active</span></td>
+                                            <td><button class="btn btn-sm btn-danger">Cancel</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Honda Civic</td>
+                                            <td>2023-06-10</td>
+                                            <td>2023-06-12</td>
+                                            <td><span class="badge bg-secondary">Completed</span></td>
+                                            <td><button class="btn btn-sm btn-outline-primary">View</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>BMW 3 Series</td>
+                                            <td>2023-06-25</td>
+                                            <td>2023-06-28</td>
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            <td><button class="btn btn-sm btn-outline-primary">View</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Quick Actions</h4>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-primary" data-page="home">Book a Car</button>
+                                <button class="btn btn-outline-primary" data-page="profile">My Profile</button>
+                                <button class="btn btn-outline-primary">Payment Methods</button>
+                                <button class="btn btn-outline-primary">Booking History</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h4 class="card-title">Special Offers</h4>
+                            <div class="pulse bg-primary text-white p-3 rounded text-center">
+                                <h5>Weekend Special!</h5>
+                                <p>Get 20% off on luxury cars this weekend</p>
+                                <button class="btn btn-light btn-sm">Book Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Admin Dashboard -->
+    <div id="adminPage" class="page-container">
+        <div class="container my-5">
+            <h2 class="section-title">Admin Dashboard</h2>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="dashboard-card card-bookings text-center">
+                        <h3>24</h3>
+                        <p>Total Bookings</p>
+                        <i class="fa-solid fa-calendar-check fa-2x float"></i>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="dashboard-card card-cars text-center">
+                        <h3>12</h3>
+                        <p>Cars Available</p>
+                        <i class="fa-solid fa-car fa-2x float"></i>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="dashboard-card card-revenue text-center">
+                        <h3>$8,540</h3>
+                        <p>Total Revenue</p>
+                        <i class="fa-solid fa-dollar-sign fa-2x float"></i>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="dashboard-card card-users text-center">
+                        <h3>56</h3>
+                        <p>Registered Users</p>
+                        <i class="fa-solid fa-user fa-2x float"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <ul class="nav nav-tabs" id="adminTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="cars-tab" data-bs-toggle="tab" data-bs-target="#cars" type="button">Manage Cars</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="bookings-tab" data-bs-toggle="tab" data-bs-target="#bookings" type="button">Manage Bookings</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button">Manage Users</button>
+                        </li>
+                    </ul>
+                    
+                    <div class="tab-content p-3 border border-top-0" id="adminTabContent">
+                        <div class="tab-pane fade show active" id="cars" role="tabpanel">
+                            <div class="d-flex justify-content-between mb-3">
+                                <h4>Cars Inventory</h4>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCarModal"><i class="fa-solid fa-plus"></i> Add New Car</button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Image</th>
+                                            <th>Name</th>
+                                            <th>Model</th>
+                                            <th>Type</th>
+                                            <th>Price/Day</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td><img src="https://images.unsplash.com/photo-1542362567-b07e54358753?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" width="50" height="auto" class="rounded"></td>
+                                            <td>Toyota Camry</td>
+                                            <td>2022</td>
+                                            <td>Sedan</td>
+                                            <td>$45</td>
+                                            <td>Available</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary"><i class="fa-solid fa-pen"></i></button>
+                                                <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td><img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" width="50" height="auto" class="rounded"></td>
+                                            <td>Honda CR-V</td>
+                                            <td>2021</td>
+                                            <td>SUV</td>
+                                            <td>$60</td>
+                                            <td>Rented</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary"><i class="fa-solid fa-pen"></i></button>
+                                                <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-pane fade" id="bookings" role="tabpanel">
+                            <h4>All Bookings</h4>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Booking ID</th>
+                                            <th>Customer</th>
+                                            <th>Car</th>
+                                            <th>Pickup Date</th>
+                                            <th>Return Date</th>
+                                            <th>Total Amount</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1001</td>
+                                            <td>John Doe</td>
+                                            <td>Toyota Camry</td>
+                                            <td>2023-06-15</td>
+                                            <td>2023-06-20</td>
+                                            <td>$225</td>
+                                            <td>Active</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-success"><i class="fa-solid fa-check"></i></button>
+                                                <button class="btn btn-sm btn-danger"><i class="fa-solid fa-times"></i></button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>1002</td>
+                                            <td>Jane Smith</td>
+                                            <td>Honda CR-V</td>
+                                            <td>2023-06-18</td>
+                                            <td>2023-06-22</td>
+                                            <td>$240</td>
+                                            <td>Completed</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-success"><i class="fa-solid fa-check"></i></button>
+                                                <button class="btn btn-sm btn-danger"><i class="fa-solid fa-times"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-pane fade" id="users" role="tabpanel">
+                            <h4>Registered Users</h4>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Phone</th>
+                                            <th>Join Date</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>John Doe</td>
+                                            <td>john@example.com</td>
+                                            <td>(555) 123-4567</td>
+                                            <td>2023-01-15</td>
+                                            <td>Active</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary"><i class="fa-solid fa-pen"></i></button>
+                                                <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Jane Smith</td>
+                                            <td>jane@example.com</td>
+                                            <td>(555) 987-6543</td>
+                                            <td>2023-02-20</td>
+                                            <td>Active</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary"><i class="fa-solid fa-pen"></i></button>
+                                                <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="mt-auto">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5>DriveEasy Car Rentals</h5>
+                    <p>Your trusted partner for car rentals. We offer the best cars at the most competitive prices.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" data-page="home">Home</a></li>
+                        <li><a href="#" data-page="about">About Us</a></li>
+                        <li><a href="#" data-page="contact">Contact</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>Contact Info</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-map-marker-alt me-2"></i> 123 Rental Street, Car City</li>
+                        <li><i class="fas fa-phone me-2"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-envelope me-2"></i> info@driveeasy.com</li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>Newsletter</h5>
+                    <p>Subscribe to our newsletter for updates and offers</p>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Your Email">
+                        <button class="btn btn-primary" type="button">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center">
+                <p>&copy; 2023 DriveEasy Car Rentals. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="login-header">
+                    <h3 class="mb-0">Login to Your Account</h3>
+                    <p class="mb-0">Welcome back! Please enter your details</p>
+                </div>
+                <div class="login-body">
+                    <div class="alert alert-danger" id="loginErrorAlert">Invalid email or password!</div>
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="loginEmail" required>
+                        </div>
+                        <div class="mb-3 password-input">
+                            <label for="loginPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                            <span class="password-toggle" id="loginPasswordToggle"><i class="fa-solid fa-eye"></i></span>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Remember me</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Login</button>
+                    </form>
+                </div>
+                <div class="login-footer">
+                    <p class="mb-0">Don't have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal" data-bs-dismiss="modal">Register</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="login-header">
+                    <h3 class="mb-0">Create an Account</h3>
+                    <p class="mb-0">Join us and start renting cars easily</p>
+                </div>
+                <div class="login-body">
+                    <div class="alert alert-success" id="registerSuccessAlert">Registration successful! Please login.</div>
+                    <div class="alert alert-danger" id="registerErrorAlert">Error registering. Please try again.</div>
+                    <form id="registerForm">
+                        <div class="mb-3">
+                            <label for="registerName" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="registerName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerEmail" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="registerEmail" required>
+                        </div>
+                        <div class="mb-3 password-input">
+                            <label for="registerPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="registerPassword" required>
+                            <span class="password-toggle" id="registerPasswordToggle"><i class="fa-solid fa-eye"></i></span>
+                        </div>
+                        <div class="mb-3 password-input">
+                            <label for="registerConfirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="registerConfirmPassword" required>
+                            <span class="password-toggle" id="registerConfirmPasswordToggle"><i class="fa-solid fa-eye"></i></span>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="termsAgree" required>
+                            <label class="form-check-label" for="termsAgree">I agree to the <a href="#">Terms and Conditions</a></label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Register</button>
+                    </form>
+                </div>
+                <div class="login-footer">
+                    <p class="mb-0">Already have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">Login</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Car Modal (Admin) -->
+    <div class="modal fade" id="addCarModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Car</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addCarForm">
+                        <div class="mb-3">
+                            <label for="carName" class="form-label">Car Name</label>
+                            <input type="text" class="form-control" id="carName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="carModel" class="form-label">Model Year</label>
+                            <input type="number" class="form-control" id="carModel" min="2010" max="2023" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="carType" class="form-label">Car Type</label>
+                            <select class="form-select" id="carType" required>
+                                <option value="">Select Type</option>
+                                <option value="Sedan">Sedan</option>
+                                <option value="SUV">SUV</option>
+                                <option value="Hatchback">Hatchback</option>
+                                <option value="Luxury">Luxury</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="carPrice" class="form-label">Price per Day ($)</label>
+                            <input type="number" class="form-control" id="carPrice" min="1" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="carImage" class="form-label">Car Image URL</label>
+                            <input type="url" class="form-control" id="carImage" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveCarBtn">Save Car</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Sample car data
+        const cars = [
+            {
+                id: 1,
+                name: "Toyota Camry",
+                model: "2022",
+                type: "Sedan",
+                price: 45,
+                image: "https://images.unsplash.com/photo-1542362567-b07e54358753?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+                features: ["Automatic", "5 Seats", "Air Conditioning"]
+            },
+            {
+                id: 2,
+                name: "Honda CR-V",
+                model: "2021",
+                type: "SUV",
+                price: 60,
+                image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+                features: ["Automatic", "5 Seats", "GPS"]
+            },
+            {
+                id: 3,
+                name: "BMW 3 Series",
+                model: "2023",
+                type: "Luxury",
+                price: 85,
+                image: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+                features: ["Automatic", "5 Seats", "Premium Sound"]
+            },
+            {
+                id: 4,
+                name: "Ford Mustang",
+                model: "2022",
+                type: "Sports",
+                price: 95,
+                image: "https://images.unsplash.com/photo-1549399542-7e821f2a7d32?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+                features: ["Manual", "4 Seats", "Sport Mode"]
+            }
+        ];
+
+        // DOM Elements
+        const carList = document.getElementById('carList');
+        const pageContainers = document.querySelectorAll('.page-container');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const guestButtons = document.getElementById('guestButtons');
+        const userButtons = document.getElementById('userButtons');
+        const adminNavItem = document.getElementById('adminNavItem');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const loginErrorAlert = document.getElementById('loginErrorAlert');
+        const registerSuccessAlert = document.getElementById('registerSuccessAlert');
+        const registerErrorAlert = document.getElementById('registerErrorAlert');
+        const loginPasswordToggle = document.getElementById('loginPasswordToggle');
+        const registerPasswordToggle = document.getElementById('registerPasswordToggle');
+        const registerConfirmPasswordToggle = document.getElementById('registerConfirmPasswordToggle');
+        const saveCarBtn = document.getElementById('saveCarBtn');
+
+        // Current user state
+        let currentUser = null;
+
+        // Initialize the application
+        function init() {
+            loadCars();
+            setupEventListeners();
+            checkLoginStatus();
+        }
+
+        // Load cars into the homepage
+        function loadCars() {
+            carList.innerHTML = '';
+            cars.forEach(car => {
+                const carCard = `
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card">
+                            <img src="${car.image}" class="car-img card-img-top" alt="${car.name}">
+                            <div class="card-body">
+                                <h5 class="card-title">${car.name}</h5>
+                                <p class="card-text">${car.model} • ${car.type}</p>
+                                <div class="mb-2">
+                                    ${car.features.map(feature => `<span class="badge bg-secondary me-1">${feature}</span>`).join('')}
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">$${car.price}/day</h5>
+                                    <button class="btn btn-primary" onclick="rentCar(${car.id})">Rent Now</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                carList.innerHTML += carCard;
+            });
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Navigation
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const page = link.getAttribute('data-page');
+                    showPage(page);
+                    
+                    // Update active nav link
+                    navLinks.forEach(navLink => navLink.classList.remove('active'));
+                    link.classList.add('active');
+                });
+            });
+
+            // Logout button
+            logoutBtn.addEventListener('click', logout);
+
+            // Login form
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                login();
+            });
+
+            // Register form
+            registerForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                register();
+            });
+
+            // Password toggles
+            loginPasswordToggle.addEventListener('click', () => togglePassword('loginPassword', 'loginPasswordToggle'));
+            registerPasswordToggle.addEventListener('click', () => togglePassword('registerPassword', 'registerPasswordToggle'));
+            registerConfirmPasswordToggle.addEventListener('click', () => togglePassword('registerConfirmPassword', 'registerConfirmPasswordToggle'));
+
+            // Admin save car button
+            saveCarBtn.addEventListener('click', addNewCar);
+        }
+
+        // Show specific page
+        function showPage(page) {
+            pageContainers.forEach(container => {
+                container.classList.remove('active-page');
+            });
+            document.getElementById(`${page}Page`).classList.add('active-page');
+        }
+
+        // Check login status
+        function checkLoginStatus() {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (user) {
+                currentUser = user;
+                updateUIForLoggedInUser();
+            }
+        }
+
+        // Update UI for logged in user
+        function updateUIForLoggedInUser() {
+            guestButtons.style.display = 'none';
+            userButtons.style.display = 'flex';
+            
+            // Show admin nav item if user is admin
+            if (currentUser.email === 'admin@driveeasy.com') {
+                adminNavItem.style.display = 'block';
+            }
+        }
+
+        // Login function
+        function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Simple validation (in a real app, this would be a server request)
+            if (email && password) {
+                // For demo purposes, any email/password works, but check for admin
+                currentUser = {
+                    email: email,
+                    name: email.split('@')[0],
+                    isAdmin: email === 'admin@driveeasy.com'
+                };
+                
+                // Save to localStorage
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                // Update UI
+                updateUIForLoggedInUser();
+                
+                // Close modal
+                const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+                loginModal.hide();
+                
+                // Show success message (you could use a toast notification here)
+                alert('Login successful!');
+            } else {
+                // Show error
+                loginErrorAlert.style.display = 'block';
+                setTimeout(() => {
+                    loginErrorAlert.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        // Register function
+        function register() {
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                registerErrorAlert.textContent = "Passwords don't match!";
+                registerErrorAlert.style.display = 'block';
+                setTimeout(() => {
+                    registerErrorAlert.style.display = 'none';
+                }, 3000);
+                return;
+            }
+            
+            // In a real app, this would be a server request
+            // For demo purposes, we'll just show a success message
+            registerSuccessAlert.style.display = 'block';
+            
+            // Clear form
+            registerForm.reset();
+            
+            // After a delay, switch to login modal
+            setTimeout(() => {
+                const registerModal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
+                registerModal.hide();
+                
+                const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                loginModal.show();
+            }, 2000);
+        }
+
+        // Logout function
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            
+            guestButtons.style.display = 'flex';
+            userButtons.style.display = 'none';
+            adminNavItem.style.display = 'none';
+            
+            // Go to home page
+            showPage('home');
+            
+            // Update nav links
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') === 'home') {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Toggle password visibility
+        function togglePassword(inputId, toggleId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleIcon = document.getElementById(toggleId);
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.innerHTML = '<i class="fa-solid fa-eye"></i>';
+            }
+        }
+
+        // Rent car function
+        function rentCar(carId) {
+            if (!currentUser) {
+                // Show login modal if not logged in
+                const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                loginModal.show();
+                return;
+            }
+            
+            const car = cars.find(c => c.id === carId);
+            alert(`You are about to rent the ${car.name} for $${car.price}/day. In a real application, this would open a booking form.`);
+        }
+
+        // Add new car (admin function)
+        function addNewCar() {
+            const name = document.getElementById('carName').value;
+            const model = document.getElementById('carModel').value;
+            const type = document.getElementById('carType').value;
+            const price = document.getElementById('carPrice').value;
+            const image = document.getElementById('carImage').value;
+            
+            // In a real app, this would be a server request
+            // For demo, we'll just show a success message
+            alert(`Car ${name} added successfully!`);
+            
+            // Close modal
+            const addCarModal = bootstrap.Modal.getInstance(document.getElementById('addCarModal'));
+            addCarModal.hide();
+            
+            // Clear form
+            document.getElementById('addCarForm').reset();
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
