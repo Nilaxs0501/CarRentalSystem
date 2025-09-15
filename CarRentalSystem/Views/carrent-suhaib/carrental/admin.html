@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Luxury Wheels</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+    /* ===================== Root Variables ===================== */
+    :root {
+        --primary: #0b0b0f;
+        --secondary: #1c1c24;
+        --accent: #c89b3c;
+        --text: #f0e6d2;
+        --text-secondary: #a5a5a5;
+        --transition: all 0.4s ease;
+        --radius: 12px;
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+        background: var(--primary);
+        color: var(--text);
+        transition: var(--transition);
+        overflow-x: hidden;
+    }
+
+    body.light-mode {
+        --primary: #f5f5f5;
+        --secondary: #eaeaea;
+        --text: #111;
+        --text-secondary: #444;
+        --accent: #c89b3c;
+    }
+
+    /* ===================== Dashboard Styles ===================== */
+    .dashboard-container {
+        padding: 2rem 5%;
+        min-height: 100vh;
+    }
+
+    .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .dashboard-title {
+        font-size: 2.2rem;
+        color: var(--accent);
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .dashboard-title img {
+        height: 40px;
+        width: auto;
+    }
+
+    .dashboard-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+
+    .dashboard-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(12px);
+        padding: 25px;
+        border-radius: var(--radius);
+        transition: var(--transition);
+        text-align: center;
+    }
+
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow);
+    }
+
+    .dashboard-card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+        color: var(--text-secondary);
+    }
+
+    .dashboard-card p {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--accent);
+        margin: 0;
+    }
+
+    .dashboard-section {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(12px);
+        padding: 25px;
+        border-radius: var(--radius);
+        margin-bottom: 30px;
+    }
+
+    .dashboard-section h3 {
+        margin-bottom: 20px;
+        color: var(--accent);
+        padding-bottom: 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* ===================== Tab Styles ===================== */
+    .tab-buttons {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .tab-btn {
+        padding: 12px 24px;
+        background: rgba(255, 255, 255, 0.05);
+        border: none;
+        border-radius: var(--radius);
+        color: var(--text);
+        cursor: pointer;
+        transition: var(--transition);
+        font-weight: 500;
+    }
+
+    .tab-btn.active {
+        background: var(--accent);
+        color: var(--primary);
+    }
+
+    .tab-btn:hover:not(.active) {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .tab-content {
+        display: none;
+    }
+
+    .tab-content.active {
+        display: block;
+        animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    /* ===================== Form Styles ===================== */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--text-secondary);
+    }
+
+    .form-group input, .form-group select, .form-group textarea {
+        width: 100%;
+        padding: 12px 15px;
+        border: none;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: var(--radius);
+        color: var(--text);
+        font-size: 1rem;
+        transition: var(--transition);
+    }
+
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px var(--accent);
+    }
+
+    .add-car-form {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    /* ===================== Button Styles ===================== */
+    .btn {
+        padding: 12px 25px;
+        border: none;
+        border-radius: var(--radius);
+        cursor: pointer;
+        transition: var(--transition);
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .btn-primary {
+        background: var(--accent);
+        color: var(--primary);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(200, 155, 60, 0.4);
+    }
+
+    .btn-danger {
+        background: #e74c3c;
+        color: white;
+    }
+
+    .btn-danger:hover {
+        background: #c0392b;
+        transform: translateY(-3px);
+    }
+
+    .btn-secondary {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--text);
+    }
+
+    .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-3px);
+    }
+
+    /* ===================== List Styles ===================== */
+    .car-list, .rental-list, .user-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .car-item, .rental-item, .user-item {
+        background: rgba(255, 255, 255, 0.03);
+        padding: 20px;
+        border-radius: var(--radius);
+        transition: var(--transition);
+    }
+
+    .car-item:hover, .rental-item:hover, .user-item:hover {
+        background: rgba(255, 255, 255, 0.05);
+        transform: translateY(-5px);
+    }
+
+    .car-image {
+        width: 100%;
+        height: 180px;
+        border-radius: var(--radius);
+        overflow: hidden;
+        margin-bottom: 15px;
+    }
+
+    .car-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+    }
+
+    .car-item:hover .car-image img {
+        transform: scale(1.05);
+    }
+
+    .car-info h4, .rental-info h4, .user-info h4 {
+        margin-bottom: 10px;
+        color: var(--accent);
+    }
+
+    .car-info p, .rental-info p, .user-info p {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        margin-bottom: 5px;
+    }
+
+    .car-actions, .rental-actions, .user-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    /* ===================== Profile Styles ===================== */
+    .profile-info {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+    .info-item {
+        margin-bottom: 15px;
+    }
+
+    .info-item label {
+        display: block;
+        color: var(--text-secondary);
+        margin-bottom: 5px;
+        font-size: 0.9rem;
+    }
+
+    .info-item p {
+        font-size: 1.1rem;
+        margin: 0;
+    }
+
+    /* ===================== Empty State Styles ===================== */
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--text-secondary);
+    }
+
+    .empty-state i {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        color: var(--accent);
+    }
+
+    .empty-state h3 {
+        margin-bottom: 10px;
+        color: var(--text);
+    }
+
+    .empty-state p {
+        margin-bottom: 20px;
+    }
+
+    /* ===================== Responsive Design ===================== */
+    @media (max-width: 768px) {
+        .dashboard-header {
+            flex-direction: column;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .dashboard-title {
+            font-size: 1.8rem;
+        }
+
+        .tab-buttons {
+            flex-direction: column;
+        }
+
+        .car-list, .rental-list, .user-list {
+            grid-template-columns: 1fr;
+        }
+
+        .add-car-form {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* ===================== Animation Enhancements ===================== */
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .dashboard-card, .dashboard-section {
+        animation: slideIn 0.5s ease;
+    }
+
+    .dashboard-card:nth-child(1) { animation-delay: 0.1s; }
+    .dashboard-card:nth-child(2) { animation-delay: 0.2s; }
+    .dashboard-card:nth-child(3) { animation-delay: 0.3s; }
+    .dashboard-card:nth-child(4) { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">
+                <i class="fas fa-car"></i>
+                Admin Dashboard
+            </h1>
+            <div>
+                <button class="btn btn-primary" onclick="location.href='index.html'">
+                    <i class="fas fa-arrow-left"></i> Back to Site
+                </button>
+                <button class="btn btn-danger" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+        
+        <div id="dashboardGreeting">
+            <h2>Welcome, Administrator</h2>
+        </div>
+        
+        <div class="dashboard-cards">
+            <div class="dashboard-card">
+                <h3>Total Cars</h3>
+                <p id="totalCars">6</p>
+            </div>
+            <div class="dashboard-card">
+                <h3>Active Rentals</h3>
+                <p id="activeRentals">2</p>
+            </div>
+            <div class="dashboard-card">
+                <h3>Total Revenue</h3>
+                <p id="totalRevenue">$4,200</p>
+            </div>
+            <div class="dashboard-card">
+                <h3>Available Cars</h3>
+                <p id="availableCars">4</p>
+            </div>
+        </div>
+        
+        <div class="tab-buttons">
+            <button class="tab-btn active" onclick="openTab('carsTab')">
+                <i class="fas fa-car"></i> Manage Cars
+            </button>
+            <button class="tab-btn" onclick="openTab('rentalsTab')">
+                <i class="fas fa-receipt"></i> Manage Rentals
+            </button>
+            <button class="tab-btn" onclick="openTab('usersTab')">
+                <i class="fas fa-users"></i> Manage Users
+            </button>
+        </div>
+        
+        <div id="carsTab" class="tab-content active">
+            <div class="dashboard-section">
+                <h3>Add New Car</h3>
+                <form id="addCarForm" class="add-car-form">
+                    <div class="form-group">
+                        <label for="carName">Car Name</label>
+                        <input type="text" id="carName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="carSpecs">Specifications (comma separated)</label>
+                        <input type="text" id="carSpecs" required placeholder="Petrol, SUV, 500 HP">
+                    </div>
+                    <div class="form-group">
+                        <label for="carPrice">Price per Day ($)</label>
+                        <input type="number" id="carPrice" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="carImage">Image URL</label>
+                        <input type="text" id="carImage" required placeholder="https://example.com/car.jpg">
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Car
+                    </button>
+                </form>
+            </div>
+            
+            <div class="dashboard-section">
+                <h3>Car Fleet</h3>
+                <div class="car-list" id="carList">
+                    <!-- Cars will be loaded here -->
+                </div>
+            </div>
+        </div>
+        
+        <div id="rentalsTab" class="tab-content">
+            <div class="dashboard-section">
+                <h3>All Rentals</h3>
+                <div class="rental-list" id="rentalList">
+                    <!-- Rentals will be loaded here -->
+                </div>
+            </div>
+        </div>
+        
+        <div id="usersTab" class="tab-content">
+            <div class="dashboard-section">
+                <h3>All Users</h3>
+                <div class="user-list" id="userList">
+                    <!-- Users will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Demo data
+        const demoCars = [
+            { 
+                id: 1, 
+                name: "BMW M8", 
+                specs: ["Petrol", "Coupe", "600 HP"], 
+                price: 1200, 
+                available: true,
+                image: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=800&q=80"
+            },
+            { 
+                id: 2, 
+                name: "Mercedes S-Class", 
+                specs: ["Diesel", "Sedan", "500 HP"], 
+                price: 900, 
+                available: true,
+                image: "https://images.unsplash.com/photo-1563720223880-4d93eef1f1c2?auto=format&fit=crop&w=800&q=80"
+            },
+            { 
+                id: 3, 
+                name: "Lamborghini Aventador", 
+                specs: ["Petrol", "Supercar", "770 HP"], 
+                price: 2500, 
+                available: false,
+                image: "https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=800&q=80"
+            }
+        ];
+
+        const demoRentals = [
+            {
+                id: 1,
+                userName: "John Doe",
+                carName: "Lamborghini Aventador",
+                startDate: "2023-10-15",
+                endDate: "2023-10-20",
+                totalPrice: 12500,
+                status: "Active"
+            },
+            {
+                id: 2,
+                userName: "Jane Smith",
+                carName: "BMW M8",
+                startDate: "2023-10-10",
+                endDate: "2023-10-12",
+                totalPrice: 2400,
+                status: "Completed"
+            }
+        ];
+
+        const demoUsers = [
+            {
+                id: 1,
+                name: "John Doe",
+                email: "john@example.com",
+                joinDate: "2023-01-15",
+                rentals: 3
+            },
+            {
+                id: 2,
+                name: "Jane Smith",
+                email: "jane@example.com",
+                joinDate: "2023-03-22",
+                rentals: 5
+            },
+            {
+                id: 3,
+                name: "Robert Johnson",
+                email: "robert@example.com",
+                joinDate: "2023-05-10",
+                rentals: 2
+            }
+        ];
+
+        // Tab functionality
+        function openTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show the selected tab
+            document.getElementById(tabId).classList.add('active');
+            
+            // Add active class to the clicked button
+            event.currentTarget.classList.add('active');
+
+            // Load data for the tab
+            if (tabId === 'carsTab') {
+                loadCars();
+            } else if (tabId === 'rentalsTab') {
+                loadRentals();
+            } else if (tabId === 'usersTab') {
+                loadUsers();
+            }
+        }
+        
+        // Logout function
+        function logout() {
+            localStorage.removeItem('currentUser');
+            alert('You have been logged out successfully.');
+            window.location.href = 'index.html';
+        }
+
+        // Load cars
+        function loadCars() {
+            const carList = document.getElementById('carList');
+            carList.innerHTML = '';
+            
+            demoCars.forEach(car => {
+                const carItem = document.createElement('div');
+                carItem.classList.add('car-item');
+                carItem.innerHTML = `
+                    <div class="car-image">
+                        <img src="${car.image}" alt="${car.name}">
+                    </div>
+                    <div class="car-info">
+                        <h4>${car.name}</h4>
+                        <p>${car.specs.join(' | ')}</p>
+                        <p>$${car.price}/day | ${car.available ? 'Available' : 'Rented'}</p>
+                    </div>
+                    <div class="car-actions">
+                        <button class="btn btn-primary" onclick="editCar(${car.id})">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="btn btn-danger" onclick="deleteCar(${car.id})">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                `;
+                carList.appendChild(carItem);
+            });
+        }
+
+        // Load rentals
+        function loadRentals() {
+            const rentalList = document.getElementById('rentalList');
+            rentalList.innerHTML = '';
+            
+            demoRentals.forEach(rental => {
+                const rentalItem = document.createElement('div');
+                rentalItem.classList.add('rental-item');
+                rentalItem.innerHTML = `
+                    <div class="rental-info">
+                        <h4>${rental.carName}</h4>
+                        <p>Rented by: ${rental.userName}</p>
+                        <p>Dates: ${rental.startDate} to ${rental.endDate}</p>
+                        <p>Total: $${rental.totalPrice} | Status: ${rental.status}</p>
+                    </div>
+                    <div class="rental-actions">
+                        <button class="btn btn-primary" onclick="viewRental(${rental.id})">
+                            <i class="fas fa-eye"></i> Details
+                        </button>
+                        <button class="btn btn-secondary" onclick="updateRentalStatus(${rental.id})">
+                            <i class="fas fa-edit"></i> Update Status
+                        </button>
+                    </div>
+                `;
+                rentalList.appendChild(rentalItem);
+            });
+        }
+
+        // Load users
+        function loadUsers() {
+            const userList = document.getElementById('userList');
+            userList.innerHTML = '';
+            
+            demoUsers.forEach(user => {
+                const userItem = document.createElement('div');
+                userItem.classList.add('user-item');
+                userItem.innerHTML = `
+                    <div class="user-info">
+                        <h4>${user.name}</h4>
+                        <p>Email: ${user.email}</p>
+                        <p>Member since: ${user.joinDate}</p>
+                        <p>Total rentals: ${user.rentals}</p>
+                    </div>
+                    <div class="user-actions">
+                        <button class="btn btn-primary" onclick="viewUser(${user.id})">
+                            <i class="fas fa-eye"></i> View Profile
+                        </button>
+                        <button class="btn btn-secondary" onclick="messageUser(${user.id})">
+                            <i class="fas fa-envelope"></i> Message
+                        </button>
+                    </div>
+                `;
+                userList.appendChild(userItem);
+            });
+        }
+
+        // Add car form submission
+        document.getElementById('addCarForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const carName = document.getElementById('carName').value;
+            const carSpecs = document.getElementById('carSpecs').value.split(',').map(spec => spec.trim());
+            const carPrice = document.getElementById('carPrice').value;
+            const carImage = document.getElementById('carImage').value;
+            
+            // In a real app, you would save this to your database
+            alert(`Car "${carName}" has been added successfully!`);
+            
+            // Reset form
+            this.reset();
+            
+            // Reload cars
+            loadCars();
+        });
+
+        // Example functions for button actions
+        function editCar(carId) {
+            alert(`Edit car with ID: ${carId}`);
+        }
+
+        function deleteCar(carId) {
+            if (confirm('Are you sure you want to delete this car?')) {
+                alert(`Car with ID: ${carId} has been deleted`);
+                // In a real app, you would remove it from the database and reload the list
+            }
+        }
+
+        function viewRental(rentalId) {
+            alert(`View rental details for ID: ${rentalId}`);
+        }
+
+        function updateRentalStatus(rentalId) {
+            alert(`Update rental status for ID: ${rentalId}`);
+        }
+
+        function viewUser(userId) {
+            alert(`View user profile for ID: ${userId}`);
+        }
+
+        function messageUser(userId) {
+            alert(`Send message to user with ID: ${userId}`);
+        }
+
+        // Check if user is logged in and is admin
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if (!currentUser) {
+                alert("Please log in to access the admin dashboard.");
+                window.location.href = "index.html";
+                return;
+            }
+            
+            if (currentUser.role !== 'admin') {
+                alert("You don't have permission to access the admin dashboard.");
+                window.location.href = "user.html";
+                return;
+            }
+            
+            document.getElementById("dashboardGreeting").innerHTML = `<h2>Welcome, ${currentUser.name}</h2>`;
+            
+            // Load initial data
+            loadCars();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Dashboard | Luxury Wheels</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="assests\css\style.css">
+<style>
+.dashboard-container {
+  padding: 2rem 5%;
+  min-height: 100vh;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dashboard-title {
+  font-size: 2.2rem;
+  color: var(--accent);
+}
+
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.dashboard-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  padding: 25px;
+  border-radius: var(--radius);
+  transition: var(--transition);
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow);
+}
+
+.dashboard-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: var(--text-secondary);
+}
+
+.dashboard-card p {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.dashboard-sections {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+}
+
+.dashboard-section {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  padding: 25px;
+  border-radius: var(--radius);
+}
+
+.dashboard-section h3 {
+  margin-bottom: 20px;
+  color: var(--accent);
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.rental-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.rental-item {
+  padding: 15px;
+  margin-bottom: 15px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius);
+}
+
+.rental-info h4 {
+  margin-bottom: 5px;
+}
+
+.rental-info p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 5px;
+}
+
+.btn {
+  padding: 8px 15px;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--primary);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 0;
+  color: var(--text-secondary);
+}
+
+.empty-state i {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  color: var(--accent);
+}
+
+.profile-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.info-item {
+  margin-bottom: 15px;
+}
+
+.info-item label {
+  display: block;
+  color: var(--text-secondary);
+  margin-bottom: 5px;
+}
+
+.info-item p {
+  font-size: 1.1rem;
+}
+
+.tab-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tab-btn {
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  border-radius: var(--radius);
+  color: var(--text);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.tab-btn.active {
+  background: var(--accent);
+  color: var(--primary);
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+</style>
+</head>
+<body>
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h1 class="dashboard-title">My Dashboard</h1>
+    <div>
+      <button class="btn btn-primary" onclick="location.href='index.html'">Back to Site</button>
+      <button class="btn" onclick="logout()">Logout</button>
+    </div>
+  </div>
+  
+  <div id="dashboardGreeting">
+    <h2>Welcome, User</h2>
+  </div>
+  
+  <div class="dashboard-cards">
+    <div class="dashboard-card">
+      <h3>Active Rentals</h3>
+      <p id="activeRentals">0</p>
+    </div>
+    <div class="dashboard-card">
+      <h3>Total Spent</h3>
+      <p id="totalSpent">$0</p>
+    </div>
+    <div class="dashboard-card">
+      <h3>Completed Rentals</h3>
+      <p id="completedRentals">0</p>
+    </div>
+  </div>
+  
+  <div class="tab-buttons">
+    <button class="tab-btn active" onclick="openTab('profileTab')">My Profile</button>
+    <button class="tab-btn" onclick="openTab('rentalsTab')">My Rentals</button>
+    <button class="tab-btn" onclick="openTab('historyTab')">Rental History</button>
+  </div>
+  
+  <div id="profileTab" class="tab-content active">
+    <div class="dashboard-section">
+      <h3>Personal Information</h3>
+      <div class="profile-info">
+        <div class="info-item">
+          <label>Full Name</label>
+          <p id="userName">John Doe</p>
+        </div>
+        <div class="info-item">
+          <label>Username</label>
+          <p id="userUsername">user123</p>
+        </div>
+        <div class="info-item">
+          <label>Member Since</label>
+          <p id="memberSince">2023</p>
+        </div>
+        <div class="info-item">
+          <label>Total Rentals</label>
+          <p id="totalUserRentals">0</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div id="rentalsTab" class="tab-content">
+    <div class="dashboard-section">
+      <h3>My Active Rentals</h3>
+      <div class="rental-list" id="activeRentalList">
+        <div class="empty-state" id="noActiveRentals">
+          <i class="fas fa-car"></i>
+          <h3>No Active Rentals</h3>
+          <p>You don't have any active rentals at the moment.</p>
+          <button class="btn btn-primary" onclick="location.href='index.html#cars'">Browse Cars</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div id="historyTab" class="tab-content">
+    <div class="dashboard-section">
+      <h3>Rental History</h3>
+      <div class="rental-list" id="rentalHistoryList">
+        <div class="empty-state" id="noRentalHistory">
+          <i class="fas fa-history"></i>
+          <h3>No Rental History</h3>
+          <p>You haven't made any rentals yet.</p>
+          <button class="btn btn-primary" onclick="location.href='index.html#cars'">Browse Cars</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/main.js"></script>
+<script>
+// Check if user is logged in
+document.addEventListener("DOMContentLoaded", function() {
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  
+  if (!currentUser) {
+    alert("Please log in to access your dashboard.");
+    window.location.href = "index.html";
+    return;
+  }
+  
+  document.getElementById("dashboardGreeting").innerHTML = `<h2>Welcome, ${currentUser.name}</h2>`;
+  document.getElementById("userName").textContent = currentUser.name;
+  document.getElementById("userUsername").textContent = currentUser.username;
+  document.getElementById("memberSince").textContent = new Date().getFullYear(); // Simplified
+  
+  loadUserDashboard();
+  renderUserRentals();
+});
+
+function loadUserDashboard() {
+  const rentals = JSON.parse(localStorage.getItem('rentals')) || [];
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  
+  const userRentals = rentals.filter(rental => rental.userId === currentUser.id);
+  const activeRentals = userRentals.filter(rental => rental.status === "Active");
+  const completedRentals = userRentals.filter(rental => rental.status === "Completed");
+  
+  const totalSpent = userRentals.reduce((sum, rental) => sum + rental.totalPrice, 0);
+  
+  document.getElementById("activeRentals").textContent = activeRentals.length;
+  document.getElementById("completedRentals").textContent = completedRentals.length;
+  document.getElementById("totalSpent").textContent = `$${totalSpent}`;
+  document.getElementById("totalUserRentals").textContent = userRentals.length;
+}
+
+function renderUserRentals() {
+  const rentals = JSON.parse(localStorage.getItem('rentals')) || [];
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  
+  const userRentals = rentals.filter(rental => rental.userId === currentUser.id);
+  const activeRentals = userRentals.filter(rental => rental.status === "Active");
+  const completedRentals = userRentals.filter(rental => rental.status === "Completed");
+  
+  // Render active rentals
+  const activeRentalList = document.getElementById("activeRentalList");
+  
+  if (activeRentals.length === 0) {
+    document.getElementById("noActiveRentals").style.display = "block";
+  } else {
+    document.getElementById("noActiveRentals").style.display = "none";
+    
+    activeRentals.forEach(rental => {
+      const rentalItem = document.createElement("div");
+      rentalItem.classList.add("rental-item");
+      rentalItem.innerHTML = `
+        <div class="rental-info">
+          <h4>${rental.carName}</h4>
+          <p>Rental Period: ${rental.startDate} to ${rental.endDate}</p>
+          <p>Total: $${rental.totalPrice} | Status: ${rental.status}</p>
+        </div>
+      `;
+      activeRentalList.appendChild(rentalItem);
+    });
+  }
+  
+  // Render rental history
+  const rentalHistoryList = document.getElementById("rentalHistoryList");
+  
+  if (completedRentals.length === 0) {
+    document.getElementById("noRentalHistory").style.display = "block";
+  } else {
+    document.getElementById("noRentalHistory").style.display = "none";
+    
+    completedRentals.forEach(rental => {
+      const rentalItem = document.createElement("div");
+      rentalItem.classList.add("rental-item");
+      rentalItem.innerHTML = `
+        <div class="rental-info">
+          <h4>${rental.carName}</h4>
+          <p>Rental Period: ${rental.startDate} to ${rental.endDate}</p>
+          <p>Total: $${rental.totalPrice} | Status: ${rental.status}</p>
+        </div>
+      `;
+      rentalHistoryList.appendChild(rentalItem);
+    });
+  }
+}
+
+function openTab(tabId) {
+  // Hide all tabs
+  document.querySelectorAll('.tab-content').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  
+  // Remove active class from all buttons
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  
+  // Show the selected tab
+  document.getElementById(tabId).classList.add('active');
+  
+  // Add active class to the clicked button
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

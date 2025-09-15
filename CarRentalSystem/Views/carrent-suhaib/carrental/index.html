@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luxury Wheels | Premium Car Rentals</title>
+<link rel="stylesheet" href="assests\css\style.css">
+<style>
+
+/* ===================== Root Variables ===================== */
+
+:root {
+  --primary: #0b0b0f;
+  --secondary: #1c1c24;
+  --accent: #c89b3c;
+  --text: #f0e6d2;
+  --text-secondary: #a5a5a5;
+  --transition: all 0.4s ease;
+  --radius: 12px;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--primary);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+  transition: var(--transition);
+}
+
+body.light-mode {
+  --primary: #f5f5f5;
+  --secondary: #eaeaea;
+  --text: #111;
+  --text-secondary: #444;
+  --accent: #c89b3c;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button, input, textarea {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+}
+
+/* ===================== Preloader ===================== */
+#preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.headlight-animation {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: url('https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=1770&q=80') center/cover no-repeat;
+}
+
+.headlight-animation::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.start-button {
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  padding: 15px 50px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  color: var(--accent);
+  border: 2px solid var(--accent);
+  border-radius: 50px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  opacity: 0;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  animation: fadeInScale 1.2s forwards 2s;
+}
+
+.start-button:hover {
+  background: var(--accent);
+  color: var(--primary);
+  box-shadow: 0 0 20px var(--accent), 0 0 40px var(--accent);
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* ===================== Navigation ===================== */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 5%;
+  background: rgba(11, 11, 15, 0.9);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.nav-links {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+}
+
+.nav-links a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  transition: var(--transition);
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -5px;
+  left: 0;
+  background: var(--accent);
+  transition: var(--transition);
+}
+
+.nav-links a:hover {
+  color: var(--accent);
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.profile-menu {
+  position: relative;
+  display: none;
+}
+
+.profile-menu img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
+  padding: 15px;
+  border-radius: var(--radius);
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 180px;
+  box-shadow: var(--shadow);
+  z-index: 101;
+}
+
+.profile-dropdown.active {
+  display: flex;
+}
+
+.profile-dropdown button, .profile-dropdown a {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  padding: 8px 12px;
+  text-align: left;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.profile-dropdown button:hover, .profile-dropdown a:hover {
+  background: var(--accent);
+  color: var(--primary);
+}
+
+/* ===================== Hero Section ===================== */
+.hero {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 10%;
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1535732820275-9ffd998cac22?auto=format&fit=crop&w=1770&q=80') center/cover no-repeat;
+}
+
+.hero-content {
+  max-width: 800px;
+  animation: fadeSlideUp 1.5s ease forwards;
+}
+
+.hero-content h1 {
+  font-size: 3.8rem;
+  margin-bottom: 20px;
+  line-height: 1.2;
+  text-shadow: 0 0 20px var(--accent);
+}
+
+.hero-content h1 span {
+  animation: neonGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes neonGlow {
+  0% {
+    text-shadow: 0 0 10px var(--accent);
+  }
+  100% {
+    text-shadow: 0 0 25px var(--accent), 0 0 50px var(--accent);
+  }
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  color: var(--text-secondary);
+}
+
+.cta-button {
+  padding: 15px 40px;
+  background: var(--accent);
+  border: none;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 1.1rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: var(--transition);
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.cta-button:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 0 25px var(--accent);
+}
+
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===================== Sections ===================== */
+.section {
+  padding: 80px 5%;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 60px;
+  position: relative;
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  width: 100px;
+  height: 3px;
+  background: var(--accent);
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* ===================== Features Section ===================== */
+.features-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.feature-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  padding: 30px;
+  border-radius: var(--radius);
+  text-align: center;
+  transition: var(--transition);
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow);
+}
+
+.feature-card i {
+  font-size: 2.5rem;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+
+.feature-card h3 {
+  margin-bottom: 15px;
+  font-size: 1.4rem;
+}
+
+.feature-card p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ===================== Cars Section ===================== */
+.cars-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.car-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: var(--transition);
+  position: relative;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.car-card:hover {
+  transform: translateY(-15px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 30px var(--accent);
+}
+
+.car-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, rgba(200, 155, 60, 0.3), rgba(255, 255, 255, 0.1));
+  opacity: 0;
+  transition: var(--transition);
+  pointer-events: none;
+  border-radius: var(--radius);
+}
+
+.car-card:hover::before {
+  opacity: 1;
+  animation: glow 1.5s infinite alternate;
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 10px var(--accent);
+  }
+  100% {
+    box-shadow: 0 0 25px var(--accent);
+  }
+}
+
+.badge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: var(--accent);
+  color: var(--primary);
+  padding: 5px 12px;
+  font-size: 0.8rem;
+  border-radius: 20px;
+  font-weight: 600;
+  z-index: 10;
+}
+
+.car-image {
+  height: 200px;
+  overflow: hidden;
+}
+
+.car-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+.car-card:hover img {
+  transform: scale(1.15);
+}
+
+.car-details {
+  padding: 20px;
+}
+
+.car-details h3 {
+  margin-bottom: 10px;
+}
+
+.car-specs {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.price {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 15px;
+}
+
+.rent-button {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.rent-button:hover {
+  background: var(--accent);
+  color: var(--primary);
+  box-shadow: 0 0 15px var(--accent);
+}
+
+/* ===================== Contact Section ===================== */
+.contact-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.contact-info {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  padding: 30px;
+  border-radius: var(--radius);
+}
+
+.contact-info h3 {
+  margin-bottom: 20px;
+  color: var(--accent);
+}
+
+.contact-info p {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.contact-info i {
+  color: var(--accent);
+  width: 20px;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contact-form input, .contact-form textarea {
+  padding: 15px;
+  border: none;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.contact-form input:focus, .contact-form textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.contact-form button {
+  padding: 15px;
+  background: var(--accent);
+  color: var(--primary);
+  border: none;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.contact-form button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(200, 155, 60, 0.4);
+}
+
+/* ===================== Footer ===================== */
+footer {
+  background: var(--secondary);
+  padding: 50px 5% 20px;
+  margin-top: 80px;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.footer-column h3 {
+  color: var(--accent);
+  margin-bottom: 15px;
+}
+
+.footer-column p, .footer-column a {
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+  text-decoration: none;
+  display: block;
+  transition: var(--transition);
+}
+
+.footer-column a:hover {
+  color: var(--accent);
+  transform: translateX(5px);
+}
+
+.social-icons {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.social-icons a {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.social-icons a:hover {
+  background: var(--accent);
+  color: var(--primary);
+  transform: translateY(-4px);
+}
+
+.copyright {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+/* ===================== Modal ===================== */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background: var(--secondary);
+  padding: 30px;
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+  box-shadow: var(--shadow);
+  animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.close-modal {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: var(--transition);
+}
+
+.close-modal:hover {
+  color: var(--accent);
+}
+
+.modal-content h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--accent);
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  border: none;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.modal-content input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.modal-content button {
+  width: 100%;
+  padding: 12px;
+  background: var(--accent);
+  color: var(--primary);
+  border: none;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.modal-content button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(200, 155, 60, 0.4);
+}
+
+.login-note {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+/* ===================== Responsive Design ===================== */
+@media (max-width: 992px) {
+  .hero-content h1 {
+    font-size: 3rem;
+  }
+  
+  .nav-links {
+    gap: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px 5%;
+  }
+  
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+  
+  .hero-content p {
+    font-size: 1rem;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero {
+    padding: 0 5%;
+  }
+  
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+  
+  .cta-button {
+    padding: 12px 30px;
+    font-size: 1rem;
+  }
+  
+  .cars-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .contact-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .footer-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .social-icons {
+    justify-content: center;
+  }
+  
+}
+</style>
+</head>
+<body>
+
+<!-- Preloader -->
+<div id="preloader">
+  <div class="headlight-animation">
+    <button class="start-button" id="startButton">Enter Showroom</button>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div id="main-content">
+  <!-- Navigation -->
+  <nav>
+    <div class="logo">LUXURY WHEELS</div>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#cars">Our Fleet</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a href="#" id="loginBtn">Login</a>
+      <div class="profile-menu" id="profileMenu">
+        <img src="https://i.pravatar.cc/40" id="profilePic" alt="Profile"/>
+        <div class="profile-dropdown" id="profileDropdown">
+          <button onclick="goToDashboard()">Dashboard</button>
+          <button id="offersBtn">Offers</button>
+          <button id="historyBtn">History</button>
+          <button id="themeBtn">Toggle Dark/Light</button>
+          <button onclick="logout()">Logout</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <h1>Experience Premium <span>Luxury Cars</span></h1>
+      <p>Indulge in the ultimate driving experience with our exclusive fleet of high-end vehicles.</p>
+      <button class="cta-button" onclick="scrollToSection('cars')">Reserve Now</button>
+    </div>
+  </section>
+
+ 
+
+  <!-- Cars Section -->
+  <section id="cars" class="section">
+    <h2 class="section-title">Our Premium Fleet</h2>
+    <div class="cars-container" id="carList"></div>
+  </section>
+
+   <!-- About Section -->
+  <section id="about" class="section">
+    <h2 class="section-title">Why Choose Us</h2>
+    <div class="features-container">
+      <div class="feature-card">
+        <i class="fas fa-tachometer-alt"></i>
+        <h3>Premium Fleet</h3>
+        <p>Only the finest luxury vehicles maintained to perfection.</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-shield-alt"></i>
+        <h3>Fully Insured</h3>
+        <p>Comprehensive coverage for complete peace of mind.</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-headset"></i>
+        <h3>24/7 Support</h3>
+        <p>Our team is always available to assist you.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="section">
+    <h2 class="section-title">Contact Us</h2>
+    <div class="contact-container">
+      <div class="contact-info">
+        <h3>Get In Touch</h3>
+        <p><i class="fas fa-map-marker-alt"></i> 123 Luxury Avenue, Premium City</p>
+        <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+        <p><i class="fas fa-envelope"></i> info@luxurywheels.com</p>
+      </div>
+      <form class="contact-form">
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
+        <textarea placeholder="Your Message" rows="5" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3>LUXURY WHEELS</h3>
+        <p>Experience the pinnacle of automotive excellence with our premium rental service.</p>
+      </div>
+      <div class="footer-column">
+        <h3>Quick Links</h3>
+        <a href="#home">Home</a>
+        <a href="#cars">Our Fleet</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="footer-column">
+        <h3>Follow Us</h3>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2023 Luxury Wheels. All rights reserved.</p>
+    </div>
+  </footer>
+</div>
+
+<!-- Login Modal -->
+<div class="modal" id="loginModal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <h2>Login to Your Account</h2>
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button id="loginSubmit">Login</button>
+    <p class="login-note">(Admin: admin/admin123 | User: user/user123)</p>
+  </div>
+</div>
+
+<script>
+// ===================== Global Variables =====================
+let currentUser = null;
+let cars = [
+  { 
+    id: 1, 
+    name: "BMW M8", 
+    specs: ["Petrol", "Coupe", "600 HP"], 
+    price: 1200, 
+    available: true,
+    image: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=800&q=80"
+  },
+  { 
+    id: 2, 
+    name: "Mercedes S-Class", 
+    specs: ["Diesel", "Sedan", "500 HP"], 
+    price: 900, 
+    available: true,
+    image: "https://images.carexpert.com.au/crop/932/620/app/uploads/2022/05/2022-Mercedes-Benz-S-Class-S580L-HERO.jpg"
+  },
+  { 
+    id: 3, 
+    name: "Lamborghini Aventador", 
+    specs: ["Petrol", "Supercar", "770 HP"], 
+    price: 2500, 
+    available: true,
+    image: "https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=800&q=80"
+  },
+  { 
+    id: 4, 
+    name: "Porsche 911", 
+    specs: ["Petrol", "Coupe", "580 HP"], 
+    price: 1500, 
+    available: true,
+    image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80"
+  }
+];
+
+// ===================== DOM Content Loaded =====================
+document.addEventListener("DOMContentLoaded", function() {
+  initializeApp();
+});
+
+function initializeApp() {
+  // Preloader
+  const preloader = document.getElementById("preloader");
+  const startButton = document.getElementById("startButton");
+  
+  startButton.addEventListener("click", function() {
+    preloader.style.display = "none";
+    document.getElementById("main-content").style.opacity = "1";
+  });
+  
+  // Check if user is already logged in
+  const savedUser = localStorage.getItem('currentUser');
+  if (savedUser) {
+    currentUser = JSON.parse(savedUser);
+    updateUIAfterLogin();
+  }
+  
+  // Render cars
+  renderCars();
+  
+  // Event listeners
+  document.getElementById("loginBtn").addEventListener("click", openLoginModal);
+  document.querySelector(".close-modal").addEventListener("click", closeLoginModal);
+  document.getElementById("loginSubmit").addEventListener("click", login);
+  document.getElementById("themeBtn").addEventListener("click", toggleTheme);
+  document.getElementById("offersBtn").addEventListener("click", showOffers);
+  document.getElementById("historyBtn").addEventListener("click", showHistory);
+  
+  // Close modal when clicking outside
+  window.addEventListener("click", function(event) {
+    const modal = document.getElementById("loginModal");
+    if (event.target === modal) {
+      closeLoginModal();
+    }
+  });
+  
+  // Contact form submission
+  const contactForm = document.querySelector(".contact-form");
+  if (contactForm) {
+    contactForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      alert("Thank you for your message! We'll get back to you soon.");
+      contactForm.reset();
+    });
+  }
+  
+  // Profile dropdown
+  const profilePic = document.getElementById("profilePic");
+  if (profilePic) {
+    profilePic.addEventListener("click", function() {
+      document.getElementById("profileDropdown").classList.toggle("active");
+    });
+  }
+}
+
+// ===================== Render Cars =====================
+function renderCars() {
+  const container = document.getElementById("carList");
+  if (!container) return;
+  
+  container.innerHTML = "";
+  
+  cars.forEach((car, idx) => {
+    const card = document.createElement("div");
+    card.classList.add("car-card");
+    card.innerHTML = `
+      <div class="badge">Premium</div>
+      <div class="car-image"><img src="${car.image}" alt="${car.name}"></div>
+      <div class="car-details">
+        <h3>${car.name}</h3>
+        <div class="car-specs">${car.specs.join(" | ")}</div>
+        <div class="price">$${car.price}/day</div>
+        <button class="rent-button" onclick="openRentModal(${car.id})">
+          Rent Now
+        </button>
+      </div>
+    `;
+    
+    // 3D tilt mouse effect
+    card.addEventListener("mousemove", function(e) {
+      if (window.innerWidth < 768) return; // Disable on mobile
+      
+      let rect = card.getBoundingClientRect();
+      let x = e.clientX - rect.left;
+      let y = e.clientY - rect.top;
+      let cx = rect.width / 2;
+      let cy = rect.height / 2;
+      let dx = (x - cx) / cx;
+      let dy = (y - cy) / cy;
+      
+      card.style.transform = `rotateY(${dx * 10}deg) rotateX(${-dy * 10}deg) translateZ(0)`;
+    });
+    
+    card.addEventListener("mouseleave", function() {
+      card.style.transform = "rotateY(0deg) rotateX(0deg)";
+    });
+    
+    container.appendChild(card);
+  });
+}
+
+// ===================== Login Functions =====================
+function openLoginModal() {
+  document.getElementById("loginModal").classList.add("active");
+}
+
+function closeLoginModal() {
+  document.getElementById("loginModal").classList.remove("active");
+}
+
+function login() {
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+  
+  if (!username || !password) {
+    alert("Please enter both username and password");
+    return;
+  }
+  
+  // Simple authentication (in a real app, this would be server-side)
+  if (username === "admin" && password === "admin123") {
+    currentUser = { id: 1, username: "admin", name: "Administrator", role: "admin" };
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    updateUIAfterLogin();
+    closeLoginModal();
+    alert("Welcome back, Administrator!");
+  } else if (username === "user" && password === "user123") {
+    currentUser = { id: 2, username: "user", name: "John Doe", role: "customer" };
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    updateUIAfterLogin();
+    closeLoginModal();
+    alert("Welcome back, John!");
+  } else {
+    alert("Invalid credentials. Please try again.");
+  }
+}
+
+function updateUIAfterLogin() {
+  document.getElementById("loginBtn").style.display = "none";
+  document.getElementById("profileMenu").style.display = "flex";
+  document.getElementById("profilePic").src = `https://i.pravatar.cc/40?u=${currentUser.username}`;
+}
+
+function logout() {
+  currentUser = null;
+  localStorage.removeItem('currentUser');
+  
+  document.getElementById("loginBtn").style.display = "inline-block";
+  document.getElementById("profileMenu").style.display = "none";
+  alert("You have been logged out.");
+}
+
+// ===================== Utility Functions =====================
+function toggleTheme() {
+  document.body.classList.toggle("light-mode");
+  
+  // Save theme preference
+  const isLightMode = document.body.classList.contains("light-mode");
+  localStorage.setItem("theme", isLightMode ? "light" : "dark");
+}
+
+function scrollToSection(sectionId) {
+  const section = document.getElementById(sectionId);
+  if (section) {
+    section.scrollIntoView({ behavior: "smooth" });
+  }
+}
+
+function showOffers() {
+  if (!currentUser) {
+    alert("Please log in to view offers.");
+    return;
+  }
+  alert("Special offers: Get 10% off on weekly rentals! Use code: LUXURY10");
+}
+
+function showHistory() {
+  if (!currentUser) {
+    alert("Please log in to view your history.");
+    return;
+  }
+  alert("You haven't made any rentals yet.");
+}
+
+function openRentModal(carId) {
+  if (!currentUser) {
+    openLoginModal();
+    return;
+  }
+  
+  const car = cars.find(c => c.id === carId);
+  alert(`You are about to rent: ${car.name}\nPrice: $${car.price}/day`);
+}
+
+function goToDashboard() {
+  if (!currentUser) {
+    alert("Please log in first");
+    return;
+  }
+
+  // Redirect to admin.html
+  window.location.href = "admin.html";
+}
+
+function goToDashboard() {
+  if (!currentUser) {
+    alert("Please log in first");
+    return;
+  }
+
+  // Redirect to user.html
+  window.location.href = "user.html";
+}
+
+
+// Initialize theme from localStorage
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme === "light") {
+  document.body.classList.add("light-mode");
+}
+</script>
+</body>
+</html>
